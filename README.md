@@ -8,7 +8,7 @@ Hatch is [Vibe Rooster](https://viberooster.com)'s official MCP connector. Ask y
 https://mcp.theroost.dev/mcp
 ```
 
-Remote server, Streamable HTTP, anonymous. 15 tools, 1 prompt.
+Remote server, Streamable HTTP, anonymous. 19 tools, 1 prompt.
 
 - **Registry:** [`com.viberooster/hatch`](https://registry.modelcontextprotocol.io/v0.1/servers?search=com.viberooster/hatch) in the official MCP Registry
 - **Install guide:** https://viberooster.com/install.html
@@ -74,20 +74,26 @@ Full per-platform instructions: https://viberooster.com/install.html
 
 | Tool | What it does |
 |---|---|
-| `hatch` | Create a **new** site and return `{ tenantId, slug, url, apex }`. Four modes: empty (instant placeholder), `manifest` (presigned PUT URLs — preferred for images/fonts/CSS), `site` (inline files, small text-only sites), `script` (server-side ES module). |
+| `hatch` | Create a **new** site and return `{ hatchId, slug, url, apex }`. Four modes: empty (instant placeholder), `manifest` (presigned PUT URLs — preferred for images/fonts/CSS), `site` (inline files, small text-only sites), `script` (server-side ES module). |
 | `upload` | Add or replace files on an existing roost. Returns one presigned PUT URL per file; bytes never pass through the tool call. |
-| `lookup` | Resolve a roost by `slug` or `tenantId` — recovers state when context is lost. |
-| `convert` | Atomically rename a roost and/or change tier (`free` → `forever`), or toggle gallery listing. |
+| `lookup` | Resolve a roost by `slug` or `hatchId` — recovers state when context is lost. |
+| `list` | List every hatch in a workspace (paired workspace session). Call before hatching again so you do not duplicate a site. |
+| `convert` | Atomically rename a roost, toggle gallery listing, or bind a custom domain after checkout. Subscription Pins may `convert(newTier: forever)` while slots remain; paid Pins use `checkout` grant `publish`. |
+| `catalog` | List payable features (Pin, Pack, Roost, Roost Audit, custom domain) and Stripe Price ids. |
+| `checkout` | Create a Stripe Checkout Session. **Show `checkoutUrl`.** Then `poll_checkout`. |
+| `poll_checkout` | Wait until the user pays; the webhook applies the grant. |
 | `deploy` | Advanced: replace a roost's server-side code with a full ES module (1.5 MiB max). |
 
 ### Human-in-the-loop
 
-Hatch renders the review UI **on the live artifact itself** — reviewers see a "Review required" chip that opens a modal. No separate approval inbox.
+Hatch renders the review UI **on the live artifact itself** — reviewers see a "Review required" chip that opens a modal. Mobile also has a Decisions inbox.
+
+**Workspace policies:** `required` (fork sibling `{slug}-vN` when review is outstanding/approved) or `good_effort` (overwrite in place; supersede open HITL). Paired workspaces auto-open HITL on `hatch` / `upload` / `deploy` and return `decisionId`.
 
 | Tool | What it does |
 |---|---|
 | `await_decision` | Open a review on a live roost. Default options Approve / Request changes / Reject; supports custom options, `maxIterations`, `timeoutSeconds`, `contextUrl`, `webhookUrl`. |
-| `poll_decision` | Long-poll (~20s) until the decision resolves: `approved`, `rejected`, `changes_requested`, `timeout_exceeded`, `max_iterations_exceeded`. Returns comment, conversation and iteration count. |
+| `poll_decision` | Long-poll (~20s) until the decision resolves: `approved`, `rejected`, `changes_requested`, `timeout_exceeded`, `max_iterations_exceeded`, `superseded`. Returns comment, conversation and iteration count. |
 | `continue_decision` | After `changes_requested`, regenerate and reopen the same decision for the next human round. |
 | `share` | Signed, expiring guest view URL (`?vt=…`) for any tier — private run reports without password auth. |
 
@@ -96,8 +102,8 @@ Hatch renders the review UI **on the live artifact itself** — reviewers see a 
 | Tool | What it does |
 |---|---|
 | `auth` | Put a sign-in screen in front of a `forever` roost (shared site password). |
-| `whoami` | Caller identity and tenant state; returns a pairing path when unidentified rather than erroring. |
-| `get_pairing_code` | Issue a pairing code + URL (10 min TTL) for claiming a tenant — render as a QR for the Vibe Rooster app. |
+| `whoami` | Caller identity and hatch state; returns a pairing path when unidentified rather than erroring. |
+| `get_pairing_code` | Issue a pairing code + URL (10 min TTL) for claiming a hatch — render as a QR for the Vibe Rooster app. |
 | `poll_pairing` | Device-grant style poll for phone approval. Returns `sessionToken`, `refreshToken`, `grantId`. |
 | `refresh_session` | Renew a ~1h access token using the refresh token; the grant lasts up to 7 days. |
 | `poll_approval` | Poll a pending Tier-2 phone approval. |
@@ -127,11 +133,14 @@ Each published site is a **roost**. The default namespace is `theroost.dev`; ver
 
 ## Tiers
 
-- **Free** — live instantly, 48h default TTL (configurable 1h–7d via `ttlSeconds`), 3 free Continues (8 live days total). No account, no card.
-- **Continue** — $4.99 buys two more weeks.
-- **Forever** — $24.99 one-time, permanent and always-on.
+- **Hatch** — free, live instantly, 48h default TTL (configurable 1h–7d via `ttlSeconds`). Try HITL. No account, no card.
+- **Pin** — $4.99/yr keeps one hatch for a year.
+- **Pack** — $4.99/yr per extra GB.
+- **Roost** — $259/mo team workspace (10 subscription Pins, durable HITL, unlimited members).
+- **Roost Audit** — $459/mo: Roost plus exportable audit trail and 1-year retention.
+- **Custom domain** — +$29/mo on Roost / Roost Audit.
 
-This connector is anonymous and creates **free** sites only. Upgrading to Forever requires an account: https://viberooster.com/connect.html#upgrade
+This connector is anonymous and creates **Hatch** sites only. To keep a site a year, ask the agent to collect Pin payment (`checkout` grant `publish`) in the same conversation.
 
 ## What Hatch does not do
 
