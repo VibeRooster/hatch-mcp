@@ -99,6 +99,8 @@ hatch({ workspaceId, … })      # new hatch in that workspace (session can supp
 
 Call `list` before `hatch` if you might already have a site. Use the returned `hatchId` with `upload` / `convert` / `await_decision`.
 
+`lookup` and `list` include first-party traffic: `pageviews24h` (HTML navigations, not CSS/JS) and `visitors24h` (approximate unique browsers). `lookup` also returns `topPaths`, `topCountries`, and `topReferrers`. This is not Google Analytics — no page JS, no third-party tracker.
+
 ## Identity & pairing
 
 Unauthenticated use works for everything above. Pairing binds a roost to a Vibe Rooster account (or a workspace, via `workspaceId`).
