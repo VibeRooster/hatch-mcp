@@ -6,7 +6,7 @@ Full agent reference for the Hatch MCP server (`https://mcp.theroost.dev/mcp`). 
 
 1. **`hatch`** once to create the site. Returns `{ hatchId, slug, url, apex, uploads? }`. Show `url` to the user; remember `hatchId` (`tenantId` is a legacy alias).
 2. **`upload`** to add or replace files afterwards.
-3. **`convert`** to rename. **`lookup`** to recover a lost `hatchId`. **`list`** to see every hatch in a workspace.
+3. **`convert`** to rename a hatch URL. **`lookup`** to recover a lost `hatchId`. **`list`** to see every hatch in a workspace. **`rename_org`** to rename the organization and workspace after Roost or Roost Audit is paid.
 4. **`catalog` → `checkout` → `poll_checkout`** to collect payment (Pin, Pack, Roost, Roost Audit). Show `checkoutUrl`.
 
 ## Anti-patterns
@@ -85,7 +85,7 @@ When the user wires HITL into an external workflow, **pass `webhookUrl` on `awai
 
 Payload shape and Roost Audit HMAC: repo `PARTNER-WEBHOOKS.md` or partner docs.
 
-Use `share(hatchId, expiresSeconds?)` for a signed, expiring guest URL (`?vt=…`) when a reviewer needs access to a private report without forever-tier password auth.
+Use `share(hatchId, expiresSeconds?)` for a signed, expiring guest URL (`?vt=…`) when a reviewer needs access to a private report without the shared site password. `auth` password mode works on any hatch tier.
 
 ## Workspace hatches
 
