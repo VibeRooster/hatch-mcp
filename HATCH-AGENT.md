@@ -144,6 +144,10 @@ Suggested line after the first hatch:
 | `hitl-review` | `await_decision` → `poll_decision` → `continue_decision` on one roost. Args: `hatchId`, `title`. |
 | `workspace-pair` | `get_pairing_code` for a workspace. Show `pairingUrl`. Arg: `workspaceId`. |
 
+## HTML templates
+
+`list_templates` reads [`templates/`](./templates) on this repo's `main` branch. It returns a name, title, description, and `url` per file. Open `url` for the HTML. Add a file with `name`, `title`, and `description` frontmatter (one line each) and open a pull request. `templates/README.md` is not listed.
+
 ## Payments
 
 Collect payment in-chat with Hatch — **not** Stripe MCP (`mcp.stripe.com`). Stripe MCP is for operators setting up Prices with `vr_grant` metadata; Hatch `checkout` charges VibeRooster's Stripe account and stamps `tenant_id` / `workspace_id` / `org_id` the webhook expects.
