@@ -109,6 +109,8 @@ Unauthenticated use works for everything above. Pairing binds a roost to a Vibe 
 whoami(hatchId?)              # never errors; returns a pairing path if unidentified
 get_pairing_code(hatchId)     # code + pairingUrl, 10 min TTL — render as QR
 get_pairing_code(workspaceId)  # B2B: authorize this agent in a workspace
+                               # show pairingUrl (https) for the user to open on their phone
+                               # do not show only appUrl — viberooster:// does nothing in a desktop chat
 poll_pairing(code, hatchId)   # waits ~20s for phone approval
                                # → sessionToken, refreshToken, grantId
 refresh_session(refreshToken, hatchId | workspaceId)
