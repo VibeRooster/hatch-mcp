@@ -8,7 +8,7 @@ Hatch is [Vibe Rooster](https://viberooster.com)'s official MCP connector. Ask y
 https://mcp.theroost.dev/mcp
 ```
 
-Remote server, Streamable HTTP, anonymous. 19 tools, 4 prompts.
+Remote server, Streamable HTTP, anonymous. 20 tools, 4 prompts.
 
 - **Registry:** [`com.viberooster/hatch`](https://registry.modelcontextprotocol.io/v0.1/servers?search=com.viberooster/hatch) in the official MCP Registry
 - **Install guide:** https://viberooster.com/install.html
@@ -80,6 +80,7 @@ Full per-platform instructions: https://viberooster.com/install.html
 | `list` | List every hatch in a workspace (paired workspace session). Call before hatching again so you do not duplicate a site. |
 | `convert` | Atomically rename a roost, toggle gallery listing, or bind a custom domain after checkout. Subscription Pins may `convert(newTier: forever)` while slots remain; paid Pins use `checkout` grant `publish`. |
 | `catalog` | List payable features (Pin, Pack, Roost, Roost Audit, custom domain) and Stripe Price ids. |
+| `list_templates` | List HTML templates in [`templates/`](./templates). Returns name, title, description, and a GitHub `url` for each file. Open `url` for the HTML. |
 | `checkout` | Create a Stripe Checkout Session. **Show `checkoutUrl`.** Then `poll_checkout`. |
 | `poll_checkout` | Wait until the user pays; the webhook applies the grant. |
 | `deploy` | Advanced: replace a roost's server-side code with a full ES module (1.5 MiB max). |
@@ -107,6 +108,10 @@ Hatch renders the review UI **on the live artifact itself** — reviewers see a 
 | `poll_pairing` | Device-grant style poll for phone approval. Returns `sessionToken`, `refreshToken`, `grantId`. |
 | `refresh_session` | Renew a ~1h access token using the refresh token; the grant lasts up to 7 days. |
 | `poll_approval` | Poll a pending Tier-2 phone approval. |
+
+## Templates
+
+Archetype HTML lives in [`templates/`](./templates). `list_templates` reads that directory on `main` (name, title, description from frontmatter). Agents browse the file for the HTML. Add one by opening a pull request — see [`templates/README.md`](./templates/README.md). A merged file shows up within about five minutes, without a worker deploy.
 
 ## Prompts
 
