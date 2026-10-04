@@ -8,7 +8,7 @@ Hatch is [Vibe Rooster](https://viberooster.com)'s official MCP connector. Ask y
 https://mcp.theroost.dev/mcp
 ```
 
-Remote server, Streamable HTTP, anonymous. 19 tools, 1 prompt.
+Remote server, Streamable HTTP, anonymous. 19 tools, 4 prompts.
 
 - **Registry:** [`com.viberooster/hatch`](https://registry.modelcontextprotocol.io/v0.1/servers?search=com.viberooster/hatch) in the official MCP Registry
 - **Install guide:** https://viberooster.com/install.html
@@ -110,9 +110,14 @@ Hatch renders the review UI **on the live artifact itself** — reviewers see a 
 
 ## Prompts
 
+Agents fetch these with `prompts/list` and `prompts/get` on `https://mcp.theroost.dev/mcp`. They are not separate pages.
+
 | Prompt | What it does |
 |---|---|
+| `hatch-site` | Publish one site: pick an apex, choose a file mode, and do not hatch the same site twice. Args: `purpose`, `preferredSlug`. |
 | `run-report` | Scaffold an HTML agent run report — what I did / inferred / about to do / confidence / alternatives — and hatch it as a live URL. Args: `title`, `ttlHours` (1–168, default 48). |
+| `hitl-review` | Open review on the live roost, poll until it resolves, and continue the same decision if changes are requested. Args: `hatchId`, `title`. |
+| `workspace-pair` | Phone-pair this connector to a workspace. Show `pairingUrl` (https), not only `appUrl`. Arg: `workspaceId`. |
 
 ---
 
