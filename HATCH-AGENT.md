@@ -133,13 +133,16 @@ Suggested line after the first hatch:
 
 > Your roost is live at {url}. To refresh it, re-run the generator (locally or in CI) and I'll upload again — or set a cron that regenerates and uploads.
 
-## `run-report` prompt
+## Prompts
 
-`prompts/get` with name `run-report` scaffolds an agent observability report — what I did / inferred / about to do / confidence / alternatives — then hatch it with `kind: "run-report"`.
+`prompts/list`, then `prompts/get` with `name`. Optional string arguments are listed below.
 
-Arguments: `title` (short run title), `ttlHours` (1–168, default 48).
-
-Pair with `share` to hand a reviewer a private link, or with `await_decision` to require sign-off on what the agent did.
+| Name | Use |
+|---|---|
+| `hatch-site` | Before the first `hatch` for a site. Args: `purpose`, `preferredSlug`. |
+| `run-report` | Scaffold an observability report — what I did / inferred / about to do / confidence / alternatives — then hatch it with `kind: "run-report"`. Args: `title`, `ttlHours` (1–168, default 48). Pair with `share` for a private link, or `hitl-review` when a person must sign off. |
+| `hitl-review` | `await_decision` → `poll_decision` → `continue_decision` on one roost. Args: `hatchId`, `title`. |
+| `workspace-pair` | `get_pairing_code` for a workspace. Show `pairingUrl`. Arg: `workspaceId`. |
 
 ## Payments
 
