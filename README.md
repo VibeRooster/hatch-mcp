@@ -1,5 +1,7 @@
 # Hatch — the Vibe Rooster MCP server
 
+[![Hatch MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/com.viberooster/hatch/badges/score.svg)](https://glama.ai/mcp/connectors/com.viberooster/hatch)
+
 **Publish a live website from your AI assistant in one tool call.**
 
 Hatch is [Vibe Rooster](https://viberooster.com)'s official MCP connector. Ask your assistant to build something, and it goes live at a real HTTPS URL — no account, no API key, no Docker, no cloud console.
