@@ -2,11 +2,11 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.viberooster/hatch",
   "title": "Hatch",
-  "description": "Hosting for AI agents: publish a live website in one tool call, ephemeral or forever.",
+  "description": "Human in the Loop tools for AI agents: publish a live site, collect structured feedback, and coordinate across agents.",
   "websiteUrl": "https://viberooster.com/install.html",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "repository": {
-    "url": "https://github.com/VibeRooster/viberooster.github.io",
+    "url": "https://github.com/VibeRooster/hatch-mcp",
     "source": "github"
   },
   "remotes": [
